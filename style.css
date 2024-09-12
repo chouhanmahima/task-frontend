@@ -1,0 +1,78 @@
+/* public/css/styles.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+}
+
+.task-form, .task-list, .task-logs {
+    background: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.task-form input, .task-form select, .task-form button {
+    margin: 10px 0;
+}
+
+.task-form input, .task-form select {
+    padding: 10px;
+    width: calc(100% - 22px);
+    margin-top: 5px;
+}
+
+.task-form button {
+    padding: 10px;
+    width: 100%;
+    background: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.task-form button:hover {
+    background: #4cae4c;
+}
+
+.task-list table, .task-logs table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.task-list table th, .task-list table td, 
+.task-logs table th, .task-logs table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.task-list table tr:nth-child(even), 
+.task-logs table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.task-list table th, .task-logs table th {
+    background-color: #333;
+    color: #fff;
+}

@@ -1,0 +1,69 @@
+<!-- public/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Scheduler</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <h1>Task Scheduler</h1>
+    </header>
+    <div class="container">
+        <div class="task-form">
+            <h2>Add New Task</h2>
+            <form id="taskForm">
+                <label for="taskName">Task Name</label>
+                <input type="text" id="taskName" name="taskName" required>
+                
+                <label for="taskFrequency">Frequency</label>
+                <select id="taskFrequency" name="taskFrequency" required>
+                    <option value="* * * * *">Every Minute</option>
+                    <option value="0 9 * * *">Daily at 9 AM</option>
+                    <option value="0 0 * * 0">Weekly on Sunday</option>
+                </select>
+
+                <button type="submit">Add Task</button>
+            </form>
+        </div>
+
+        <div class="task-list">
+            <h2>Scheduled Tasks</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Frequency</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="taskList">
+                    <!-- Dynamically populated tasks -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="task-logs">
+            <h2>Task Logs</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Executed At</th>
+                        <th>Status</th>
+                        <th>Message</th>
+                    </tr>
+                </thead>
+                <tbody id="taskLogs">
+                    <!-- Dynamically populated logs -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/js/scripts.js"></script>
+</body>
+</html>
