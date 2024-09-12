@@ -1,68 +1,107 @@
-// public/js/scripts.js
+function fetchTasks() {
+    fetch('/api/v1/get-all-task')
+        .then(response => response.json())
+        .then(data => {
+            const taskList = document.getElementById('task-list');
+            taskList.innerHTML = ''; // Clear current list
+            data.data.forEach(task => {
+                const taskItem = document.createElement('div');
+                taskItem.classList.add('task-item');
+                taskItem.innerHTML = `
+                    <div class="task-details">
+                        <strong>${task.taskName}</strong>
+                        <span>${task.taskDescription}</span>
+                        <span>Date: ${task.taskDate}</span>
+                        <span>Completed: ${task.isCompleted ? 'Yes' : 'No'}</span>
+                    </div>
+                    <div class="task-actions">
+                        <button class="update-btn" onclick="updateTask('${task._id}')">Update</button>
+                        <button class="delete-btn" onclick="deleteTask('${task._id}')">Delete</button>
+                    </div>
+                `;
+                taskList.appendChild(taskItem);
+            });
+        })
+        .catch(error => console.error('Error fetching tasks:', error));
+}
 
-// Mock functions to simulate backend operations
-const fetchTasks = () => {
-    return [
-        { taskName: 'Send Reminder Email', frequency: '0 9 * * *', status: 'Active' },
-        { taskName: 'Clear Expired Data', frequency: '0 0 * * 0', status: 'Active' }
-    ];
-};
+// Handle form submission
+document.getElementById('task-form').addEventListener('submit', function (event) {
+    event.preventDefault();
 
-const fetchTaskLogs = () => {
-    return [
-        { taskName: 'Send Reminder Email', executedAt: '2024-09-10T09:00:00Z', status: 'Success', message: 'Email sent' },
-        { taskName: 'Clear Expired Data', executedAt: '2024-09-10T00:00:00Z', status: 'Success', message: 'Expired data cleared' }
-    ];
-};
-
-const addTask = (task) => {
-    console.log('Task added:', task);
-    // Here you would make an API call to your backend
-    renderTasks();
-};
-
-// Event listener for form submission
-document.getElementById('taskForm').addEventListener('submit', function(e) {
-    e.preventDefault();
     const taskName = document.getElementById('taskName').value;
-    const taskFrequency = document.getElementById('taskFrequency').value;
-    addTask({ taskName, taskFrequency, status: 'Active' });
-    document.getElementById('taskForm').reset();
+    const taskDescription = document.getElementById('taskDescription').value;
+    const taskDate = document.getElementById('taskDate').value;
+
+    // Send POST request to add a new task
+    fetch('/api/v1/add-task', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ taskName, taskDescription, taskDate }),
+    })
+        .then(response => {
+            if (response.ok) {
+                alert('Task added successfully!');
+                fetchTasks(); // Refresh the task list
+                document.getElementById('task-form').reset(); // Clear the form
+            } else {
+                alert('Failed to add task');
+            }
+        })
+        .catch(error => console.error('Error adding task:', error));
 });
 
-// Function to render tasks in the UI
-const renderTasks = () => {
-    const tasks = fetchTasks();
-    const taskList = document.getElementById('taskList');
-    taskList.innerHTML = '';
-    tasks.forEach(task => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${task.taskName}</td>
-            <td>${task.frequency}</td>
-            <td>${task.status}</td>
-        `;
-        taskList.appendChild(row);
-    });
-};
+// Update task by ID
+function updateTask(id) {
+    const newTaskName = prompt('Enter new task name:');
+    const newTaskDescription = prompt('Enter new task description:');
+    const newTaskDate = prompt('Enter new task date (YYYY-MM-DD):');
+    const isCompleted = confirm('Mark as completed?');
 
-// Function to render task logs in the UI
-const renderTaskLogs = () => {
-    const logs = fetchTaskLogs();
-    const taskLogs = document.getElementById('taskLogs');
-    taskLogs.innerHTML = '';
-    logs.forEach(log => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${log.taskName}</td>
-            <td>${new Date(log.executedAt).toLocaleString()}</td>
-            <td>${log.status}</td>
-            <td>${log.message}</td>
-        `;
-        taskLogs.appendChild(row);
-    });
-};
+    if (newTaskName && newTaskDescription && newTaskDate) {
+        fetch(`/api/v1/update-task/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                taskName: newTaskName,
+                taskDescription: newTaskDescription,
+                taskDate: newTaskDate,
+                isCompleted: isCompleted,
+            }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Task updated successfully!');
+                    fetchTasks(); // Refresh the task list
+                } else {
+                    alert('Failed to update task');
+                }
+            })
+            .catch(error => console.error('Error updating task:', error));
+    }
+}
 
-// Initial rendering
-renderTasks();
-renderTaskLogs();
+// Delete task by ID
+function deleteTask(id) {
+    if (confirm('Are you sure you want to delete this task?')) {
+        fetch(`/api/v1/delete-task/${id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Task deleted successfully!');
+                    fetchTasks(); // Refresh the task list
+                } else {
+                    alert('Failed to delete task');
+                }
+            })
+            .catch(error => console.error('Error deleting task:', error));
+    }
+}
+
+// Fetch tasks on page load
+fetchTasks();

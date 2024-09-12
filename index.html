@@ -9,59 +9,25 @@
     <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-    <header>
-        <h1>Task Scheduler</h1>
-    </header>
-    <div class="container">
-        <div class="task-form">
-            <h2>Add New Task</h2>
-            <form id="taskForm">
-                <label for="taskName">Task Name</label>
-                <input type="text" id="taskName" name="taskName" required>
-                
-                <label for="taskFrequency">Frequency</label>
-                <select id="taskFrequency" name="taskFrequency" required>
-                    <option value="* * * * *">Every Minute</option>
-                    <option value="0 9 * * *">Daily at 9 AM</option>
-                    <option value="0 0 * * 0">Weekly on Sunday</option>
-                </select>
+    <h1>Task Scheduler</h1>
 
-                <button type="submit">Add Task</button>
-            </form>
-        </div>
+    <!-- Form to Add New Task -->
+    <form id="task-form">
+        <label for="taskName">Task Name:</label>
+        <input type="text" id="taskName" name="taskName" required>
 
-        <div class="task-list">
-            <h2>Scheduled Tasks</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Task Name</th>
-                        <th>Frequency</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="taskList">
-                    <!-- Dynamically populated tasks -->
-                </tbody>
-            </table>
-        </div>
+        <label for="taskDescription">Task Description:</label>
+        <textarea id="taskDescription" name="taskDescription" required></textarea>
 
-        <div class="task-logs">
-            <h2>Task Logs</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Task Name</th>
-                        <th>Executed At</th>
-                        <th>Status</th>
-                        <th>Message</th>
-                    </tr>
-                </thead>
-                <tbody id="taskLogs">
-                    <!-- Dynamically populated logs -->
-                </tbody>
-            </table>
-        </div>
+        <label for="taskDate">Task Date:</label>
+        <input type="date" id="taskDate" name="taskDate" required>
+
+        <button type="submit">Add Task</button>
+    </form>
+
+    <!-- Display Scheduled Tasks -->
+    <div class="task-list" id="task-list">
+        <!-- Task items will be populated here -->
     </div>
 
     <script src="/js/scripts.js"></script>
