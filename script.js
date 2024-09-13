@@ -1,5 +1,5 @@
 function fetchTasks() {
-    fetch('/api/v1/get-all-task')
+    fetch('https://task-backend-6a2p.onrender.com/api/v1/get-all-task')
         .then(response => response.json())
         .then(data => {
             const taskList = document.getElementById('task-list');
@@ -34,7 +34,7 @@ document.getElementById('task-form').addEventListener('submit', function (event)
     const taskDate = document.getElementById('taskDate').value;
 
     // Send POST request to add a new task
-    fetch('/api/v1/add-task', {
+    fetch('https://task-backend-6a2p.onrender.com/api/v1/add-task', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -61,7 +61,7 @@ function updateTask(id) {
     const isCompleted = confirm('Mark as completed?');
 
     if (newTaskName && newTaskDescription && newTaskDate) {
-        fetch(`/api/v1/update-task/${id}`, {
+        fetch(`https://task-backend-6a2p.onrender.com/api/v1/update-task/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -88,7 +88,7 @@ function updateTask(id) {
 // Delete task by ID
 function deleteTask(id) {
     if (confirm('Are you sure you want to delete this task?')) {
-        fetch(`/api/v1/delete-task/${id}`, {
+        fetch(`https://task-backend-6a2p.onrender.com/api/v1/delete-task/${id}`, {
             method: 'DELETE',
         })
             .then(response => {
